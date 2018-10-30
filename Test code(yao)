@@ -1,0 +1,99 @@
+//Het level waar je begint
+
+let level = 1
+
+//Functies, opdrachten die gegeven worden.
+function vraagKoe() {
+    if (pins.A1.analogRead() > 1000) {
+        light.setAll(0x00ff00)
+        level = level + 1
+        pause(3000)
+
+    }
+    else if (pins.A2.analogRead() > 1000 || pins.A3.analogRead() > 1000 || pins.A4.analogRead() > 1000) {
+        light.setAll(0xff0000)
+        level = 1
+        pause(3000)
+    }
+}
+
+
+function vraagKip() {
+    if (pins.A2.analogRead() > 1000) {
+        light.setAll(0x0000ff)
+        level = level + 1
+        pause(3000)
+
+    }
+    else if (pins.A1.analogRead() > 1000 || pins.A3.analogRead() > 1000 || pins.A4.analogRead() > 1000) {
+        light.setAll(0xff0000)
+        level = 1
+        pause(3000)
+    }
+}
+
+function vraagVarken() {
+    if (pins.A3.analogRead() > 1000) {
+        light.setAll(0xff00ff)
+        level = level + 1
+        pause(3000)
+
+    }
+    else if (pins.A1.analogRead() > 1000 || pins.A2.analogRead() > 1000 || pins.A4.analogRead() > 1000) {
+        light.setAll(0xff0000)
+        level = 1
+        pause(3000)
+    }
+}
+
+function vraagSchaap() {
+    if (pins.A4.analogRead() > 1000) {
+        light.setAll(0xffffff)
+        level = level + 1
+        pause(3000)
+
+    }
+    else if (pins.A1.analogRead() > 1000 || pins.A2.analogRead() > 1000 || pins.A3.analogRead() > 1000) {
+        light.setAll(0xff0000)
+        level = 1
+        pause(3000)
+    }
+}
+//Check welk level je bent en welk dier er gevraagd moet worden.
+
+loops.forever(function () {
+
+    if (level == 1) {
+        light.setAll(0x000000)
+        vraagKoe()
+    }
+    else if (level == 2) {
+        vraagKip()
+    }
+    else if (level == 3) {
+        vraagVarken()
+    }
+    else if (level == 4) {
+        vraagSchaap()
+    }
+    else if (level == 5) {
+        vraagKip()
+    }
+    else if (level == 6) {
+        vraagKoe()
+    }
+    else if (level == 7) {
+        vraagSchaap()
+    }
+    else if (level == 8) {
+        vraagVarken()
+    }
+    else {
+        music.playSound(music.sounds(Sounds.Siren))
+        pause(4000)
+        music.stopAllSounds()
+        level = 1
+    }
+    console.log("" + pins.A1.analogRead())
+    console.log(`${level}`)
+})
